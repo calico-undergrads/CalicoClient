@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/apache-mime4j-0.6.jar"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/calico_conf.jar"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/calico_icons.jar"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/calico_plugin_icons.jar"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/calico3client.jar" sourcepath="/calico3client-bugfixes"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/commons-codec-1.4.jar"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/commons-lang-2.4.jar"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/dsiutils-1.0.7.jar"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/dsn.jar"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/fastutil-5.1.5.jar"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/httpclient-4.0.1.jar"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/httpcore-4.0.1.jar"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/httpmime-4.0.1.jar"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/imap.jar"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/iText-5.0.6.jar"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/jpen-2.jar"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/json.jar"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/log4j-1.2.15.jar"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/mail.jar"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/mailapi.jar"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/piccolo2d-core-1.3.jar"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/piccolo2d-extras-1.3.jar"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/piccolo2d-swt-1.3.jar"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/pop3.jar"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/shodor.jar"/>
+	<classpathentry kind="lib" path="/Users/tellez/workspace/CalicoClient/plugins/AirspacePlugin/lib/smtp.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
