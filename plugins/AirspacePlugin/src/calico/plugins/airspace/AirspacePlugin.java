@@ -12,6 +12,7 @@ import calico.plugins.CalicoPlugin;
 import calico.plugins.airspace.components.buttons.AirspaceMapButton;
 import calico.plugins.airspace.controllers.AirspaceMapController;
 import calico.plugins.airspace.iconsets.CalicoIconManager;
+//import com.javadocmd.simplelatlng.util.LatLngConfig;
 
 
 public class AirspacePlugin extends CalicoPlugin implements
@@ -110,6 +111,15 @@ public class AirspacePlugin extends CalicoPlugin implements
 	 * @param paramsPacket
 	 */
 	public void doActionB(CalicoPacket paramsPacket) {
-
+		paramsPacket.rewind();
+		paramsPacket.getInt();
+		long uuid = paramsPacket.getLong();
+		long cuuid = paramsPacket.getLong();
+		int x = paramsPacket.getInt();
+		int y = paramsPacket.getInt();
+		
+//		AirspaceMapController.doActionB(uuid, cuuid, x, y);
+		AirspaceMapController.doActionB(uuid, cuuid, x, y);
+		
 	}
 }

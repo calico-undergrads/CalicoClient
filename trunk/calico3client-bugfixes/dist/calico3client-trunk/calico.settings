@@ -1,8 +1,8 @@
 #calico.settings
-#Mon Oct 15 20:08:06 PDT 2012
+#Mon Oct 22 19:44:35 PDT 2012
 resw=0
 port=27000
 password=
 resh=0
 host=localhost
-username=tellez
+username=nico

@@ -17,6 +17,8 @@ import calico.controllers.CGroupController;
 import calico.controllers.CImageController;
 import calico.plugins.airspace.components.AirspaceMap;
 import calico.utils.Geometry;
+//import com.javadocmd.simplelatlng.util.LatLngConfig;
+
 
 public class AirspaceMapController {
 
@@ -36,11 +38,19 @@ public class AirspaceMapController {
 		if (tempImage != null)
 		{
 			// initialize custom scrap
-			CGroup group = new AirspaceMap(elementUUID, canvasUUID, tempImage);
+			CGroup group = new AirspaceMap(elementUUID, canvasUUID, tempImage, 33.648315, -117.847466, .011501, .005967);
 	
 			// create the scrap
 			no_notify_create_custom_scrap_bootstrap(elementUUID, canvasUUID, group, p, "Action A");
 		}
+	}
+	
+	public static void doActionB(long elementUUID, long canvasUUID, int posX, int posY){
+		// create shape
+		GeneralPath myPolygon = new GeneralPath(new Rectangle(posX, posY, 120, 60));
+		Polygon p = Geometry.getPolyFromPath(myPolygon.getPathIterator(null));
+		
+			
 	}
 
 	/*************************************************
@@ -93,6 +103,17 @@ public class AirspaceMapController {
 			CGroupController.no_notify_append(uuid, p.xpoints[i], p.ypoints[i]);
 			CGroupController.no_notify_append(uuid, p.xpoints[i], p.ypoints[i]);
 		}
+	}
+	public static void no_notify_create_custom_label_bootstrap(long uuid,
+			long cuuid, CGroup group, Polygon p, String optText) {
+		no_notify_start(uuid, cuuid, 0l, true, group);
+		CGroupController.setCurrentUUID(uuid);
+		create_custom_shape(uuid, p);
+		// Set the optional text to identify the scrap
+		CGroupController.no_notify_set_text(uuid, optText);
+		CGroupController.no_notify_finish(uuid, false, false, true);
+		CGroupController.no_notify_set_permanent(uuid, true);
+		CGroupController.recheck_parent(uuid);
 	}
 
 }
