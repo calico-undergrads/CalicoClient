@@ -1,7 +1,11 @@
 package calico.plugins.airspace.components.buttons;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
@@ -49,16 +53,53 @@ public class AirspaceMapButton extends CanvasMenuButton{
 		}
 		else if (event.getAction() == InputEventInfo.ACTION_RELEASED && isPressed)
 		{
-			final JFileChooser fc = new JFileChooser();
-			fc.setFileFilter(new ImageFileFilter());
-	        int returnVal = fc.showOpenDialog(CCanvasController.canvasdb.get(CCanvasController.getCurrentUUID()).getComponent());
+//			final JFileChooser fc = new JFileChooser();
+//			fc.setFileFilter(new ImageFileFilter());
+//	        int returnVal = fc.showOpenDialog(CCanvasController.canvasdb.get(CCanvasController.getCurrentUUID()).getComponent());
 	
-	        if (returnVal == JFileChooser.APPROVE_OPTION) {
-	            File file = fc.getSelectedFile();
+//	        if (returnVal == JFileChooser.APPROVE_OPTION) {
+//	            File file = fc.getSelectedFile();
+				URL url = null;
+				try {
+					url = new URL("http://maps.googleapis.com/maps/api/staticmap?center=33.6694,-117.8222&zoom=12&size=600x600&maptype=roadmap&sensor=false");
+				} catch (MalformedURLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}	
+		            // Read the image ...
+		        InputStream inputStream = null;
+				try {
+					inputStream = url.openStream();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		        ByteArrayOutputStream output = new ByteArrayOutputStream();
+		        byte [] buffer               = new byte[ 1024 ];
+	
+		        int n = 0;
+		        try {
+					while (-1 != (n = inputStream.read(buffer))) {
+					   output.write(buffer, 0, n);
+					}
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		        try {
+					inputStream.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+	
+		        // Here's the content of the image...
+		        byte [] data = output.toByteArray();
+//				File file = 
 	            long new_uuid = Calico.uuid();
 	            try {
 	            	CImageController.save_to_disk(new_uuid, new_uuid + ".png", 
-	            			CImageController.getBytesFromDisk(file));
+	            			data);
 	            }
 	            catch (IOException e)
 	            {
@@ -74,13 +115,13 @@ public class AirspaceMapButton extends CanvasMenuButton{
 				
 //	            Networking.send(CImageController.getImageTransferPacket(Calico.uuid(), CCanvasController.getCurrentUUID(), 
 //	            		50, 50, file));
-			}
+//			}
 			
 			//send command to UI
-			long new_uuid = Calico.uuid();
-			long cuuid=CCanvasController.getCurrentUUID();
-			int x= new Double(Math.random() * 100).intValue() - 50 + CalicoDataStore.ScreenWidth / 3;
-			int y= new Double(Math.random() * 100).intValue() - 50 + CalicoDataStore.ScreenHeight / 3;
+//			long new_uuid = Calico.uuid();
+//			long cuuid=CCanvasController.getCurrentUUID();
+//			int x= new Double(Math.random() * 100).intValue() - 50 + CalicoDataStore.ScreenWidth / 3;
+//			int y= new Double(Math.random() * 100).intValue() - 50 + CalicoDataStore.ScreenHeight / 3;
 			AirspacePlugin.UI_send_command(AirspacePluginNetworkCommands.AIRSPACEPLUGIN_MAP_LOAD, new_uuid, cuuid, x, y);
 			
 			super.onMouseUp();
