@@ -1,0 +1,4 @@
+#File Types & Directories to ignore when commiting to the repository.
+bin/
+dist/
+*.class
