@@ -20,7 +20,7 @@ import calico.inputhandlers.InputEventInfo;
 import calico.networking.Networking;
 import calico.plugins.airspace.AirspacePlugin;
 import calico.plugins.airspace.AirspacePluginNetworkCommands;
-import calico.plugins.airspace.iconsets.CalicoIconManager;
+import calico.plugins.airspace.iconsets.AirspaceIconManager;
 
 
 public class AirspaceMapButton extends CanvasMenuButton{
@@ -37,7 +37,7 @@ public class AirspaceMapButton extends CanvasMenuButton{
 		{
 //			Image img = CanvasGenericMenuBar.getTextImage("  UserList  ", 
 //				new Font("Verdana", Font.BOLD, 12));
-			setImage(CalicoIconManager.getIconImage(iconString));
+			setImage(AirspaceIconManager.getIconImage(iconString));
 		}
 		catch(Exception e)
 		{
@@ -143,7 +143,7 @@ public class AirspaceMapButton extends CanvasMenuButton{
 						double tempX = tempButton.getX();
 						double tempY = tempButton.getY();
 								
-						setImage(CalicoIconManager.getIconImage(iconString));
+						setImage(AirspaceIconManager.getIconImage(iconString));
 						tempButton.setX(tempX);
 						tempButton.setY(tempY);
 					}});
@@ -169,7 +169,7 @@ public class AirspaceMapButton extends CanvasMenuButton{
 						double tempX = tempButton.getX();
 						double tempY = tempButton.getY();
 								
-						setImage(CalicoIconManager.getIconImage(iconString));
+						setImage(AirspaceIconManager.getIconImage(iconString));
 						tempButton.setX(tempX);
 						tempButton.setY(tempY);
 					}});

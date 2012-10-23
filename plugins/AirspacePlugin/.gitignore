@@ -1,0 +1,7 @@
+# Ignore Files & Directories that are Generated inside the plugins directory
+.classpath
+calico.settings
+*.jar
+*.class
+bin/
+dist/

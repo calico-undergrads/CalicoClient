@@ -11,7 +11,7 @@ import calico.networking.netstuff.CalicoPacket;
 import calico.plugins.CalicoPlugin;
 import calico.plugins.airspace.components.buttons.AirspaceMapButton;
 import calico.plugins.airspace.controllers.AirspaceMapController;
-import calico.plugins.airspace.iconsets.CalicoIconManager;
+import calico.plugins.airspace.iconsets.AirspaceIconManager;
 //import com.javadocmd.simplelatlng.util.LatLngConfig;
 
 
@@ -24,7 +24,7 @@ public class AirspacePlugin extends CalicoPlugin implements
 	public AirspacePlugin() {
 		super();
 		PluginInfo.name = "AirspacePlugin";
-		CalicoIconManager.setIconTheme(this.getClass(), CalicoOptions.core.icontheme);
+		AirspaceIconManager.setIconTheme(this.getClass(), CalicoOptions.core.icontheme);
 	}
 
 	public void onPluginStart() {
