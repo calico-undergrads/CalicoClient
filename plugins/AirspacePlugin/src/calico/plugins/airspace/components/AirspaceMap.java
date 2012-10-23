@@ -41,6 +41,7 @@ public class AirspaceMap extends CGroupImage {
 		
 	}
 	
+	
 	@Override
 	public void setInputHandler()
 	{	
