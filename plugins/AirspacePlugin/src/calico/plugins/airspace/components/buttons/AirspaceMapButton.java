@@ -7,7 +7,12 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.swing.Box;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import calico.Calico;
@@ -53,6 +58,19 @@ public class AirspaceMapButton extends CanvasMenuButton{
 		}
 		else if (event.getAction() == InputEventInfo.ACTION_RELEASED && isPressed)
 		{
+		      JTextField latitude = new JTextField(5);
+		      JTextField longitude = new JTextField(5);
+
+		      JPanel myPanel = new JPanel();
+		      myPanel.add(new JLabel("Latitude:"));
+		      myPanel.add(latitude);
+		      myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+		      myPanel.add(new JLabel("Longitude:"));
+		      myPanel.add(longitude);
+
+		      int coords = JOptionPane.showConfirmDialog(null, myPanel, 
+		               "Please Enter Latitude and Longitude", JOptionPane.OK_CANCEL_OPTION);
+		      System.out.println(latitude.getText()+"  "+longitude.getText());
 //			final JFileChooser fc = new JFileChooser();
 //			fc.setFileFilter(new ImageFileFilter());
 //	        int returnVal = fc.showOpenDialog(CCanvasController.canvasdb.get(CCanvasController.getCurrentUUID()).getComponent());
@@ -61,7 +79,9 @@ public class AirspaceMapButton extends CanvasMenuButton{
 //	            File file = fc.getSelectedFile();
 				URL url = null;
 				try {
-					url = new URL("http://maps.googleapis.com/maps/api/staticmap?center=33.6694,-117.8222&zoom=12&size=600x600&maptype=roadmap&sensor=false");
+					url = new URL("http://maps.googleapis.com/maps/api/staticmap?center="+latitude.getText()+","
+				+longitude.getText()+"&zoom=6&size=600x600&sensor=false");
+					System.out.println(url);
 				} catch (MalformedURLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
