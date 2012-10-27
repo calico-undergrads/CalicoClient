@@ -27,7 +27,7 @@ public class AirspaceIconManager {
 	public static void setIconTheme(Class<?> clazz, String name) {
 		iconThemeName = name;
 		try {
-			iconTheme.load(clazz.getResourceAsStream("/calico/iconsets/calico/airspacepluginicontheme.properties"));
+			iconTheme.load(clazz.getResourceAsStream("/calico/iconsets/"+ iconThemeName +"/airspacepluginicontheme.properties"));
 			// iconTheme.list(System.out);
 		} catch (Exception e) {
 			e.printStackTrace();

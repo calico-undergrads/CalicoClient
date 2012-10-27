@@ -22,7 +22,7 @@ import calico.utils.Geometry;
 
 public class AirspaceMapController {
 
-	public static void doActionA(long elementUUID, long canvasUUID, int posX,
+	public static void loadOverheadMap(long elementUUID, long canvasUUID, int posX,
 			int posY) {
 		// create shape
 		GeneralPath myPolygon = new GeneralPath(new Rectangle(posX, posY, 120, 60));
