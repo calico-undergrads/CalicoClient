@@ -31,7 +31,13 @@ import calico.plugins.airspace.iconsets.AirspaceIconManager;
 public class AirspaceMapButton extends CanvasMenuButton{
 
 	private static final long serialVersionUID = 1L;
-
+	private static final String GOOGLE_URL_LONG_LAT = "http://maps.googleapis.com/maps/api/staticmap?center=%s,%s&zoom=6&size=600x600&sensor=false";
+	
+	/**
+	 * Menu button to prompt user for a location for the Airspace Map.
+	 * 
+	 * @param canvasUUID
+	 */
 	public AirspaceMapButton(long canvasUUID)
 	{
 		super();
@@ -50,6 +56,16 @@ public class AirspaceMapButton extends CanvasMenuButton{
 		}
 	}
 	
+	/**
+	 * Method called when the button is clicked.
+	 * 
+	 * This method:
+	 * 1. Prompts the User
+	 * 2. Loads the Map from URL
+	 * 3. Saves the File to the Disk.
+	 * 
+	 * @param event Event info.
+	 */
 	public void actionMouseClicked(InputEventInfo event)
 	{	
 		if (event.getAction() == InputEventInfo.ACTION_PRESSED)
@@ -71,29 +87,31 @@ public class AirspaceMapButton extends CanvasMenuButton{
 		      int coords = JOptionPane.showConfirmDialog(null, myPanel, 
 		               "Please Enter Latitude and Longitude", JOptionPane.OK_CANCEL_OPTION);
 		      System.out.println(latitude.getText()+"  "+longitude.getText());
-//			final JFileChooser fc = new JFileChooser();
-//			fc.setFileFilter(new ImageFileFilter());
-//	        int returnVal = fc.showOpenDialog(CCanvasController.canvasdb.get(CCanvasController.getCurrentUUID()).getComponent());
+		      
+		      /*
+			final JFileChooser fc = new JFileChooser();
+			fc.setFileFilter(new ImageFileFilter());
+	        int returnVal = fc.showOpenDialog(CCanvasController.canvasdb.get(CCanvasController.getCurrentUUID()).getComponent());
 	
-//	        if (returnVal == JFileChooser.APPROVE_OPTION) {
-//	            File file = fc.getSelectedFile();
+	        if (returnVal == JFileChooser.APPROVE_OPTION) {
+	            File file = fc.getSelectedFile();
+		      */
 				URL url = null;
+				InputStream inputStream = null;
+				
 				try {
-					url = new URL("http://maps.googleapis.com/maps/api/staticmap?center="+latitude.getText()+","
-				+longitude.getText()+"&zoom=6&size=600x600&sensor=false");
-					System.out.println(url);
-				} catch (MalformedURLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}	
-		            // Read the image ...
-		        InputStream inputStream = null;
-				try {
+					// To Change URL see top of class.
+					url = new URL(String.format(GOOGLE_URL_LONG_LAT, latitude.getText(), longitude.getText()));
+					System.out.println(url);				
+		           // Read the image ...
 					inputStream = url.openStream();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
+				} catch(MalformedURLException e1) { 
 					e1.printStackTrace();
+				} catch (IOException e1){ 
+					e1.printStackTrace(); 
 				}
+				
+				
 		        ByteArrayOutputStream output = new ByteArrayOutputStream();
 		        byte [] buffer               = new byte[ 1024 ];
 	
@@ -102,20 +120,14 @@ public class AirspaceMapButton extends CanvasMenuButton{
 					while (-1 != (n = inputStream.read(buffer))) {
 					   output.write(buffer, 0, n);
 					}
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-		        try {
 					inputStream.close();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 	
 		        // Here's the content of the image...
 		        byte [] data = output.toByteArray();
-//				File file = 
+		        // 	File file = 
 	            long new_uuid = Calico.uuid();
 	            try {
 	            	CImageController.save_to_disk(new_uuid, new_uuid + ".png", 
@@ -130,8 +142,9 @@ public class AirspaceMapButton extends CanvasMenuButton{
 				long cuuid=CCanvasController.getCurrentUUID();
 				int x= new Double(Math.random() * 100).intValue() - 50 + CalicoDataStore.ScreenWidth / 3;
 				int y= new Double(Math.random() * 100).intValue() - 50 + CalicoDataStore.ScreenHeight / 3;
-				AirspacePlugin.UI_send_command(AirspacePluginNetworkCommands.AIRSPACEPLUGIN_MAP_LOAD, new_uuid, 
-						cuuid, x, y);
+				double given_lati = Double.parseDouble(latitude.getText());
+				double given_long = Double.parseDouble(longitude.getText());
+				AirspacePlugin.UI_send_command(AirspacePluginNetworkCommands.AIRSPACEPLUGIN_MAP_LOAD, new_uuid, cuuid, x, y, given_lati, given_long);
 				
 //	            Networking.send(CImageController.getImageTransferPacket(Calico.uuid(), CCanvasController.getCurrentUUID(), 
 //	            		50, 50, file));
@@ -200,6 +213,13 @@ public class AirspaceMapButton extends CanvasMenuButton{
 		}
 	}	
 	
+	/**
+	 * ImageFileFilter used for the JFileChooser
+	 * 
+	 * @author Calico Core
+	 *
+	 */
+	/*
 	class ImageFileFilter extends javax.swing.filechooser.FileFilter 
 	{
 	    public boolean accept(File file) 
@@ -220,5 +240,5 @@ public class AirspaceMapButton extends CanvasMenuButton{
 	        return "*.png, *.jpg, *.gif";
 	    }
 	}
-
+	*/
 }
