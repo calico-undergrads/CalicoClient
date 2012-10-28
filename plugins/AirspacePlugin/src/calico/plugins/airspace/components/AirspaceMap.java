@@ -29,7 +29,17 @@ public class AirspaceMap extends CGroupImage {
 	private double height;
 	
 	
-
+	/**
+	 * UI Map Element
+	 * 
+	 * @param uuid
+	 * @param cuid
+	 * @param image
+	 * @param latOrigin
+	 * @param longOrigin
+	 * @param width
+	 * @param height
+	 */
 	public AirspaceMap(long uuid, long cuid, Image image, double latOrigin, double longOrigin, double width, double height)
 	{
 		super(uuid,cuid,image);
@@ -42,11 +52,23 @@ public class AirspaceMap extends CGroupImage {
 	}
 	
 	
+	
+	/**
+	 * Sets `AirspaceInputHandler` for the Airspace map object.
+	 */
 	@Override
 	public void setInputHandler()
 	{	
 		CalicoInputManager.addCustomInputHandler(this.uuid, new AirspaceInputHandler(uuid));	
 	}	
+	
+	/**
+	 * Returns Logitude & Latitude Coordinates from the map.
+	 * 
+	 * @param x
+	 * @param y
+	 * @return Point2D Coordinates
+	 */
 	public Point2D.Double getPointOnMap(int x, int y){
 		Rectangle bounds = CGroupController.groupdb.get(uuid).getPathReference().getBounds();
 		double deltaX = x - bounds.x;
@@ -59,12 +81,19 @@ public class AirspaceMap extends CGroupImage {
 		
 		return new Point2D.Double(longx, laty);
 	}
+	
 	/**
 	 * Serialize this activity node in a packet
+	 * 
+	 * @param uuid
+	 * @param cuid
+	 * @param puid
+	 * @param dx
+	 * @param dy
+	 * @param captureChildren
 	 */
 	@Override
-	public CalicoPacket[] getUpdatePackets(long uuid, long cuid, long puid,
-			int dx, int dy, boolean captureChildren) {
+	public CalicoPacket[] getUpdatePackets(long uuid, long cuid, long puid, int dx, int dy, boolean captureChildren) {
 		
 		//Creates the packet for saving this CGroup
 		CalicoPacket packet = super.getUpdatePackets(uuid, cuid, puid, dx, dy,
