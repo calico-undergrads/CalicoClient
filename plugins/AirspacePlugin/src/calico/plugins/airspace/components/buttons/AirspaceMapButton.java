@@ -142,8 +142,9 @@ public class AirspaceMapButton extends CanvasMenuButton{
 				long cuuid=CCanvasController.getCurrentUUID();
 				int x= new Double(Math.random() * 100).intValue() - 50 + CalicoDataStore.ScreenWidth / 3;
 				int y= new Double(Math.random() * 100).intValue() - 50 + CalicoDataStore.ScreenHeight / 3;
-				AirspacePlugin.UI_send_command(AirspacePluginNetworkCommands.AIRSPACEPLUGIN_MAP_LOAD, new_uuid, 
-						cuuid, x, y);
+				double given_lati = Double.parseDouble(latitude.getText());
+				double given_long = Double.parseDouble(longitude.getText());
+				AirspacePlugin.UI_send_command(AirspacePluginNetworkCommands.AIRSPACEPLUGIN_MAP_LOAD, new_uuid, cuuid, x, y, given_lati, given_long);
 				
 //	            Networking.send(CImageController.getImageTransferPacket(Calico.uuid(), CCanvasController.getCurrentUUID(), 
 //	            		50, 50, file));

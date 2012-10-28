@@ -98,7 +98,7 @@ public class AirspacePlugin extends CalicoPlugin implements
 	 * Hook method called from the plugin's UI button element, after being acted upon.
 	 * 
 	 * @param com		Packet identifier - int that typically gets tossed out.
-	 * @param params	Can be any number of parameters.
+	 * @param params	Array holding other params passed that will be put into a packet
 	 */
 	public static void UI_send_command(int com, Object... params) {
 		// Create the packet
@@ -137,8 +137,10 @@ public class AirspacePlugin extends CalicoPlugin implements
 		long cuuid = paramsPacket.getLong();
 		int x = paramsPacket.getInt();
 		int y = paramsPacket.getInt();
+		double latitude = paramsPacket.getDouble();
+		double longitude = paramsPacket.getDouble();
 		
-		AirspaceMapController.loadOverheadMap(uuid, cuuid, x, y);
+		AirspaceMapController.loadOverheadMap(uuid, cuuid, x, y, latitude, longitude);
 		
 //		String fileName = paramsPacket.getString();
 		

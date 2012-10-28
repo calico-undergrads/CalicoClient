@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.geom.GeneralPath;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
@@ -22,26 +23,37 @@ import calico.utils.Geometry;
 
 public class AirspaceMapController {
 
-	public static void loadOverheadMap(long elementUUID, long canvasUUID, int posX,
-			int posY) {
+	/**
+	 * Create the a polygon. Reads an image from the disk and adds it to the canvas
+	 * 
+	 * @param elementUUID
+	 * @param canvasUUID
+	 * @param posX
+	 * @param posY
+	 */
+	public static void loadOverheadMap(long elementUUID, long canvasUUID, int posX, int posY, double latitude, double longitude) {
+		
 		// create shape
 		GeneralPath myPolygon = new GeneralPath(new Rectangle(posX, posY, 120, 60));
 		Polygon p = Geometry.getPolyFromPath(myPolygon.getPathIterator(null));
 
+		// Read the image from Disk
 		Image tempImage = null;
 		try {
 			tempImage = ImageIO.read(new File(CImageController.getImagePath(elementUUID)));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		// If the image loaded successfully, then create a new AirspaceMap element, and pass Image in
 		if (tempImage != null)
 		{
 			// initialize custom scrap
-			CGroup group = new AirspaceMap(elementUUID, canvasUUID, tempImage, 33.648315, -117.847466, .011501, .005967);
-	
+			// Original Long/Lat: 33.648315, -117.847466
+			CGroup group = new AirspaceMap(elementUUID, canvasUUID, tempImage, latitude, longitude, .011501, .005967);
+			System.out.println("<---------------"+ longitude +" || "+ latitude +"----------->");
 			// create the scrap
-			no_notify_create_custom_scrap_bootstrap(elementUUID, canvasUUID, group, p, "Action A");
+			no_notify_create_custom_scrap_bootstrap(elementUUID, canvasUUID, group, p, "loaded map");
 		}
 	}
 	
@@ -56,6 +68,19 @@ public class AirspaceMapController {
 	/*************************************************
 	 * UTILITY METHODS - Taken from Example Plugin
 	 *************************************************/
+	
+	/**
+	 * Create a custom `scrap`
+	 * 
+	 * This method utilized `no_notify_start` and `create_custom_shape`
+	 * to create the UI elements.
+	 * 
+	 * @param uuid
+	 * @param cuuid
+	 * @param group
+	 * @param p
+	 * @param optText
+	 */
 	public static void no_notify_create_custom_scrap_bootstrap(long uuid,
 			long cuuid, CGroup group, Polygon p, String optText) {
 		no_notify_start(uuid, cuuid, 0l, true, group);
@@ -68,7 +93,15 @@ public class AirspaceMapController {
 		CGroupController.recheck_parent(uuid);
 	}
 
-	// Starts the creation of any of the activity diagram scrap
+	/**
+	 * Starts the creation of any of the activity diagram scrap
+	 * 
+	 * @param uuid Unique identifier for the group
+	 * @param cuid Canvas Unique Id
+	 * @param puid Parent Unique Id
+	 * @param isperm Is the object permanent 
+	 * @param customScrap
+	 */
 	public static void no_notify_start(long uuid, long cuid, long puid,
 			boolean isperm, CGroup customScrap) {
 		if (!CCanvasController.exists(cuid))
@@ -96,7 +129,12 @@ public class AirspaceMapController {
 		// CCanvasController.canvasdb.get(cuid).repaint();
 	}
 
-	// Add the points defined in p to the scrap with id uuid
+	/**
+	 * Add the points defined in p to the scrap with id uuid
+	 *  
+	 * @param uuid 	long
+	 * @param p 	Polygon
+	 */
 	public static void create_custom_shape(long uuid, Polygon p) {
 		for (int i = 0; i < p.npoints; i++) {
 			CGroupController.no_notify_append(uuid, p.xpoints[i], p.ypoints[i]);
@@ -104,6 +142,16 @@ public class AirspaceMapController {
 			CGroupController.no_notify_append(uuid, p.xpoints[i], p.ypoints[i]);
 		}
 	}
+	
+	/**
+	 * Create a custom `label` 
+	 * 
+	 * @param uuid
+	 * @param cuuid
+	 * @param group
+	 * @param p
+	 * @param optText
+	 */
 	public static void no_notify_create_custom_label_bootstrap(long uuid,
 			long cuuid, CGroup group, Polygon p, String optText) {
 		no_notify_start(uuid, cuuid, 0l, true, group);
