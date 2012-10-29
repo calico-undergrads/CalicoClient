@@ -38,7 +38,8 @@ public class AirspaceInputHandler extends CGroupInputHandler{
 	public void actionReleased(InputEventInfo ev) {
 		// TODO Auto-generated method stub
 		super.actionReleased(ev);
-		
+		AirspaceMap map = (AirspaceMap)CGroupController.groupdb.get(this.auuid);
+		System.out.println(map.getDistance());
 	}
 
 
@@ -48,8 +49,10 @@ public class AirspaceInputHandler extends CGroupInputHandler{
 		super.actionDragged(ev);
 		
 		AirspaceMap map = (AirspaceMap)CGroupController.groupdb.get(this.auuid);
-		Point2D.Double point = map.getPointOnMap(ev.getX(), ev.getY());
-		System.out.println("X:  "+point.x+",Y:   "+point.y);
+		map.addPoint(ev.getX(), ev.getY());
+		
+//		Point2D.Double point = map.getPointOnMap(ev.getX(), ev.getY());
+//		System.out.println("X:  "+point.x+",Y:   "+point.y);
 	}
 
 }

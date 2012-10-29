@@ -4,6 +4,7 @@ package calico.plugins.airspace.components;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import calico.components.CGroup;
 import calico.components.CGroupImage;
@@ -27,7 +28,7 @@ public class AirspaceMap extends CGroupImage {
 	private double longOrigin;
 	private double width;
 	private double height;
-	
+	private ArrayList<Point2D.Double> points = new ArrayList<Point2D.Double>();
 	
 	/**
 	 * UI Map Element
@@ -63,7 +64,7 @@ public class AirspaceMap extends CGroupImage {
 	}	
 	
 	/**
-	 * Returns Logitude & Latitude Coordinates from the map.
+	 * Returns Longitude & Latitude Coordinates from the map.
 	 * 
 	 * @param x
 	 * @param y
@@ -76,10 +77,46 @@ public class AirspaceMap extends CGroupImage {
 		double ratioX = deltaX / bounds.width;
 		double ratioY = deltaY / bounds.height;
 		
-		double longx = (this.width * ratioX) + this.longOrigin;
-		double laty = (this.height * ratioY) + this.latOrigin;
-		
-		return new Point2D.Double(longx, laty);
+		double latitude = (this.width * ratioX) + this.longOrigin;
+		double longitude = (this.height * ratioY) + this.latOrigin;
+		Point2D.Double output = new Point2D.Double(latitude, longitude);
+//		System.out.println(output);
+		return output;
+	}
+	
+	public void addPoint(int x, int y){
+		points.add(getPointOnMap(x, y));
+		System.out.println(getPointOnMap(x,y));
+	}
+	
+	public double getDistance(){
+		double distance = 0;
+		for(int i=0;i<points.size()-1;i++){
+			distance += calculateDistance(points.get(i), points.get(i));
+		}
+		return distance;
+	}
+	
+	public double calculateDistance(Point2D.Double start, Point2D.Double end){
+		final int R = 6371;
+		Double lat1 = start.x;
+		Double lat2 = end.x;
+		Double lon1 = start.y;
+		Double lon2 = end.y;
+		System.out.print("Calculating distance with"+lat1+","+lat2+","+lon1+","+lon2);
+		Double latDistance = toRad(lat2-lat1);
+		Double lonDistance = toRad(lon2-lon1);
+		Double a = Math.sin(latDistance /2) * Math.sin(latDistance /2) +
+				Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+				Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+		Double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+		Double distance = R * c;
+		System.out.println(distance);
+		return distance;
+	}
+	
+	private static Double toRad(Double value){
+		return value * Math.PI / 180;
 	}
 	
 	/**
