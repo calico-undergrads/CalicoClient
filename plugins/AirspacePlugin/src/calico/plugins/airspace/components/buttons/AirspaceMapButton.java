@@ -25,13 +25,14 @@ import calico.inputhandlers.InputEventInfo;
 import calico.networking.Networking;
 import calico.plugins.airspace.AirspacePlugin;
 import calico.plugins.airspace.AirspacePluginNetworkCommands;
+import calico.plugins.airspace.components.AirspaceMap;
 import calico.plugins.airspace.iconsets.AirspaceIconManager;
 
 
 public class AirspaceMapButton extends CanvasMenuButton{
 
 	private static final long serialVersionUID = 1L;
-	private static final String GOOGLE_URL_LONG_LAT = "http://maps.googleapis.com/maps/api/staticmap?center=%s,%s&zoom=6&size=600x600&sensor=false";
+	private static final String GOOGLE_URL_LONG_LAT = "http://maps.googleapis.com/maps/api/staticmap?center=%s,%s&zoom=12&size=600x600&sensor=false";
 	
 	/**
 	 * Menu button to prompt user for a location for the Airspace Map.
@@ -145,7 +146,7 @@ public class AirspaceMapButton extends CanvasMenuButton{
 				double given_lati = Double.parseDouble(latitude.getText());
 				double given_long = Double.parseDouble(longitude.getText());
 				AirspacePlugin.UI_send_command(AirspacePluginNetworkCommands.AIRSPACEPLUGIN_MAP_LOAD, new_uuid, cuuid, x, y, given_lati, given_long);
-				
+//				AirspaceMap map = new AirspaceMap(cuuid, cuuid, background, given_long, given_long, given_long, given_long);
 //	            Networking.send(CImageController.getImageTransferPacket(Calico.uuid(), CCanvasController.getCurrentUUID(), 
 //	            		50, 50, file));
 //			}
@@ -155,7 +156,7 @@ public class AirspaceMapButton extends CanvasMenuButton{
 //			long cuuid=CCanvasController.getCurrentUUID();
 //			int x= new Double(Math.random() * 100).intValue() - 50 + CalicoDataStore.ScreenWidth / 3;
 //			int y= new Double(Math.random() * 100).intValue() - 50 + CalicoDataStore.ScreenHeight / 3;
-			AirspacePlugin.UI_send_command(AirspacePluginNetworkCommands.AIRSPACEPLUGIN_MAP_LOAD, new_uuid, cuuid, x, y);
+//			AirspacePlugin.UI_send_command(AirspacePluginNetworkCommands.AIRSPACEPLUGIN_MAP_LOAD, new_uuid, cuuid, x, y);
 			
 			super.onMouseUp();
 		}

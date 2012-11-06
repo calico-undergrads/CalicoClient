@@ -1,6 +1,8 @@
 package calico.plugins.airspace.controllers;
 
+import java.awt.Color;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.geom.GeneralPath;
@@ -13,10 +15,13 @@ import javax.imageio.ImageIO;
 
 import calico.CalicoDraw;
 import calico.components.CGroup;
+import calico.components.CStroke;
 import calico.controllers.CCanvasController;
 import calico.controllers.CGroupController;
 import calico.controllers.CImageController;
+import calico.controllers.CStrokeController;
 import calico.plugins.airspace.components.AirspaceMap;
+import calico.plugins.airspace.components.AirspaceStroke;
 import calico.utils.Geometry;
 //import com.javadocmd.simplelatlng.util.LatLngConfig;
 
@@ -50,7 +55,7 @@ public class AirspaceMapController {
 		{
 			// initialize custom scrap
 			// Original Long/Lat: 33.648315, -117.847466
-			CGroup group = new AirspaceMap(elementUUID, canvasUUID, tempImage, latitude, longitude, .011501, .005967);
+			CGroup group = new AirspaceMap(elementUUID, canvasUUID, tempImage, latitude, longitude, 8);
 			System.out.println("<---------------"+ longitude +" || "+ latitude +"----------->");
 			// create the scrap
 			no_notify_create_custom_scrap_bootstrap(elementUUID, canvasUUID, group, p, "loaded map");
@@ -162,6 +167,73 @@ public class AirspaceMapController {
 		CGroupController.no_notify_finish(uuid, false, false, true);
 		CGroupController.no_notify_set_permanent(uuid, true);
 		CGroupController.recheck_parent(uuid);
+	}
+
+	public static long getPotentialWeighPoint(Point point, int i) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public static AirspaceStroke create_airspace_stroke(long new_uuid, long currentStroke) {
+		// TODO Auto-generated method stub
+		
+		//get the polygon from the stroke
+		CStroke stroke = CStrokeController.strokes.get(currentStroke);
+		Polygon p = stroke.getPolygon();
+		long c_uuid = stroke.getCanvasUUID();
+		long parent_uuid = stroke.getParentUUID();
+		Color color = stroke.getColor();
+		float thickness = stroke.getThickness();
+		double rotation = stroke.getRotation();
+		
+		//going to delete the stroke
+		CStrokeController.delete(currentStroke);
+		
+		//going to create the airspace stroke
+		initialize_airspace_stroke(new_uuid, c_uuid, parent_uuid, color, thickness, p, rotation, 1.0d, 1.0d);
+		
+		return null;
+	}
+	
+	public static void initialize_airspace_stroke(long uuid, long cuid, long puid, Color color, float thickness, Polygon p, double rotation, double scaleX, double scaleY)
+	{
+//		CStrokeController.no_notify_start(uuid, cuid, puid, color, thickness);
+		// -- STROKE START -- //
+		
+		AirspaceStroke aStroke = new AirspaceStroke(uuid, cuid, puid, color, thickness);
+		
+		// does the element already exist?
+		if(CStrokeController.exists(uuid))
+		{
+			CStrokeController.no_notify_delete(uuid);
+		}
+		
+		// add to the DB
+		CStrokeController.strokes.put(uuid, aStroke);
+		
+		// Add to the canvas
+		CCanvasController.no_notify_add_child_stroke(cuid, uuid, true);
+		
+		if(puid!=0L)
+		{
+			// Ok, add to the group
+			CGroupController.no_notify_add_child_stroke(puid, uuid);
+		}
+		
+		
+		// -- END STROKE START -- //
+		
+		int[] x = p.xpoints;
+		int[] y = p.ypoints;
+		
+		CStrokeController.no_notify_batch_append(uuid, x, y);
+		
+		CStrokeController.strokes.get(uuid).primative_rotate(rotation);
+		CStrokeController.strokes.get(uuid).primative_scale(scaleX, scaleY);
+		
+		//CStrokeController.strokes.get(uuid).finish();
+		
+		CStrokeController.no_notify_finish(uuid);
 	}
 
 }
