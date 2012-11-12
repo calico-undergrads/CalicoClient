@@ -11,7 +11,7 @@ import calico.components.CStroke;
 public class AirspaceStroke extends CStroke{
 	
 	private ArrayList<Point3d> weighPoints = new ArrayList<Point3d>();
-	private ArrayList<Point2D.Double> points = new ArrayList<Point2D.Double>();
+//	private ArrayList<Point2D.Double> points = new ArrayList<Point2D.Double>();
 
 
 	/**
@@ -32,10 +32,10 @@ public class AirspaceStroke extends CStroke{
 		weighPoints.add(new Point3d(x,y,z));
 	}
 	
-	public void addPoint(int x, int y){
-	points.add(getPointOnMap(x, y));
-	System.out.println(getPointOnMap(x,y));
-}
+//	public void addPoint(int x, int y){
+//	points.add(getPointOnMap(x, y));
+//	System.out.println(getPointOnMap(x,y));
+//}
 
 	public void addWeightPoint(int x, int y, int z){
 		weighPoints.add(new Point3d(x,y,z));
@@ -50,9 +50,14 @@ public class AirspaceStroke extends CStroke{
 	
 	public double getDistance(){
 		double distance = 0;
-		for(int i=0;i<points.size()-2;i++){
-			distance += calculateDistance(points.get(i), points.get(i+1));
+		
+		System.out.println(this.getPolygon().toString());
+		for(int i=0;i<this.getPointCount()-1;i++){
+			
 		}
+//		for(int i=0;i<points.size()-2;i++){
+//			distance += calculateDistance(points.get(i), points.get(i+1));
+//		}
 		return distance;
 	}
 	
